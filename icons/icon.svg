@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <rect x="78.964" y="76.194" width="50.03" height="258.736" rx="8" ry="8" style="fill-rule: nonzero; paint-order: fill; fill: rgb(231, 125, 25); stroke: rgb(28, 29, 30);" transform="matrix(0.945534, -0.325522, 0.350398, 0.93697, 9.463097, 82.30938)"/>
+  <rect x="292.549" y="182.965" width="50.535" height="189.036" rx="8" ry="8" style="fill-rule: nonzero; paint-order: fill; transform-box: fill-box; transform-origin: 50% 50%; fill: rgb(231, 125, 25); stroke: rgb(28, 29, 30);" transform="matrix(0.993184, -0.11656, 0.128237, 0.991813, -21.900306, -72.090488)"/>
+  <ellipse style="fill-rule: nonzero; paint-order: fill; fill: rgb(231, 125, 25); stroke: rgb(28, 29, 30);" cx="156.12" cy="423.414" rx="29.666" ry="29.584" transform="matrix(0.945534, -0.325522, 0.350398, 0.93697, -51.572433, 53.976596)"/>
+  <ellipse style="fill-rule: nonzero; paint-order: fill; fill: rgb(231, 125, 25); stroke: rgb(28, 29, 30);" cx="298.039" cy="330.659" rx="28.476" ry="27.975" transform="matrix(0.996049, 0.088804, -0.096398, 0.995372, 48.897746, -15.545233)"/>
+  <path d="M 251.037 248.936 m -248.652 0 a 248.652 248.641 0 1 0 497.304 0 a 248.652 248.641 0 1 0 -497.304 0 Z M 251.037 248.936 m -205.045 0 a 205.045 205.045 0 0 1 410.09 0 a 205.045 205.045 0 0 1 -410.09 0 Z" style="transform-box: fill-box; transform-origin: 50% 50%; fill: rgb(198, 21, 25); stroke: rgb(28, 29, 30);" transform="matrix(0.999985, 0.005482, -0.005438, 0.999985, -1.036975, 1.064007)" bx:shape="ring 251.037 248.936 205.045 205.045 248.652 248.641 1@80bf1a50"/>
+  <rect x="142.97" y="76.487" width="42.866" height="447.348" style="transform-box: fill-box; transform-origin: 50% 50%; fill: rgb(198, 21, 25);" transform="matrix(0.766298, 0.642485, -0.639459, 0.768836, 85.935024, -57.344432)"/>
+</svg>

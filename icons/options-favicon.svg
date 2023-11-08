@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+    <style>
+    @media (prefers-color-scheme: dark) {
+      * {
+        fill: #e9e9ec!important;
+      }
+    }
+  </style>
+  <defs>
+    <bx:grid x="0.756" y="1.44" width="38.293" height="38.293"/>
+  </defs>
+  <rect x="64.478" y="62.076" width="40.852" height="210.792" rx="8" ry="8" style="fill-rule: nonzero; paint-order: fill; fill: rgb(28, 29, 30);" transform="matrix(0.945822, -0.324685, 0.351301, 0.936685, 53.943012, 113.733162)"/>
+  <rect x="238.946" y="149.022" width="41.276" height="153.966" rx="8" ry="8" style="fill-rule: nonzero; paint-order: fill; fill: rgb(28, 29, 30); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0.993222, -0.116229, 0.128602, 0.991775, 28.335005, -12.026981)"/>
+  <ellipse style="fill-rule: nonzero; paint-order: fill; fill: rgb(28, 29, 30);" cx="156.12" cy="423.414" rx="24.223" ry="24.102" transform="matrix(0.945822, -0.324685, 0.351301, 0.936685, -50.563121, 26.464269)"/>
+  <ellipse style="fill-rule: nonzero; paint-order: fill; fill: rgb(28, 29, 30);" cx="298.039" cy="330.659" rx="23.258" ry="22.785" transform="matrix(0.996072, 0.088551, -0.096674, 0.99535, 37.69169, -31.861988)"/>
+  <path d="M 251.037 248.936 m -203.099 0 a 203.099 202.507 0 1 0 406.198 0 a 203.099 202.507 0 1 0 -406.198 0 Z M 251.037 248.936 m -167.481 0 a 167.481 166.999 0 0 1 334.962 0 a 167.481 166.999 0 0 1 -334.962 0 Z" style="fill: rgb(28, 29, 30); transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0.999985, 0.005466, -0.005454, 0.999985, -0.623069, 1.373402)" bx:shape="ring 251.037 248.936 167.481 166.999 203.099 202.507 1@88e345cb"/>
+  <rect x="116.611" y="62.385" width="34.963" height="364.867" style="fill: rgb(28, 29, 30); transform-box: fill-box; transform-origin: 83.8079% 50.8334%;" transform="matrix(0.710424, 0.703774, -0.703013, 0.711178, 104.035576, 21.94345)"/>
+  <rect x="208.423" y="1.44" width="83.427" height="68.387" rx="8" ry="8" style="fill: rgb(28, 29, 30);"/>
+  <rect x="208.423" y="430.862" width="83.427" height="68.387" rx="8" ry="8" style="fill: rgb(28, 29, 30);"/>
+  <rect x="0.756" y="209.428" width="82.527" height="83.298" rx="8" ry="8" style="fill: rgb(28, 29, 30); transform-origin: 42.02px 251.078px;"/>
+  <rect x="417.473" y="209.428" width="82.527" height="83.298" rx="8" ry="8" style="fill: rgb(28, 29, 30); transform-origin: 458.736px 251.078px;"/>
+  <rect x="265.683" y="48.123" width="74.273" height="70.084" rx="8" ry="8" style="fill: rgb(28, 29, 30);" transform="matrix(0.704004, 0.710196, -0.710605, 0.703591, 260.799072, -174.781815)"/>
+  <rect x="265.683" y="488.2" width="74.273" height="70.084" rx="8" ry="8" style="fill: rgb(28, 29, 30);" transform="matrix(0.704004, 0.710196, -0.710605, 0.703591, 255.891479, -175.850388)"/>
+  <rect x="265.694" y="48.121" width="74.276" height="70.081" rx="8" ry="8" style="fill: rgb(28, 29, 30);" transform="matrix(-0.694824, 0.719179, -0.714512, -0.699655, 673.607666, 247.94902)"/>
+  <rect x="265.694" y="488.18" width="74.276" height="70.081" rx="8" ry="8" style="fill: rgb(28, 29, 30);" transform="matrix(-0.694824, 0.719179, -0.714512, -0.699655, 681.3172, 246.204086)"/>
+</svg>

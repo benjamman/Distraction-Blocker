@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Distraction Blocker Redirect</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<body>
+	<main class="main">
+		<h1>Are you sure?</h1>
+		<p>This domain is on the your Distraction Blocker blacklist. Are you sure you want to proceed to <span class="blocked-page-url">this site</span>?</p>
+		<div class="override-form-wrapper">
+			<form class="override-form" action="javascript:void()">
+				<label htmlFor="override-len">Override for</label>
+				<select id="override-len" class="select" name="override-len" value="900000">
+				  <option value="300000">5 Minutes</option>
+				  <option value="900000">15 Minutes</option>
+				  <option value="1800000">30 Minutes</option>
+				  <option value="2700000">45 Minutes</option>
+				  <option value="3600000">1 Hour</option>
+				  <option value="1200000">2 Hours</option>
+				  <option value="custom">Custom Time</option>
+				  <option value="-1">Disable Distraction Blocker</option>
+				</select>
+				<label for="custom-time" id="custom-time-label" style="display:none;">Custom time <i>(in minutes)</i></label>
+				<input id="custom-time" class="text-input" type="number" min="0" max="1024" placeholder="Minutes" style="display:none;" />
+				<label for="password">Password</label>
+				<input id="password" class="text-input"  type="password" placeholder="Override password" />
+				<input id="override-button" class="button negative" type="submit" value="Continue" />
+			</form>
+		</div>
+		<footer style="margin-top:7px;">
+			<a href="" id="settings-link">Settings</a>
+		</footer>
+	</main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+:root {
+	--clr: #eeeeff;
+	--bg: #201f27;
+	--clr-btn: #ffffff;
+	--bg-btn: #33323a;
+	--bg-btn-hover: #38353e;
+	--btn-negative-clr: #000000cd;
+	--bg-negative: #ff4646;
+	--bg-negative-hover: #ff5252;
+	--primary: #00ffff;
+	--btn-primary-clr: #000000cd;
+	--bg-primary: #00ecef;
+	--bg-primary-hover: #88ffff;
+}
+
+#browser-action-popup {
+	--clr: #ffffff;
+	--bg: #3c3a43;
+	--clr-btn: #ffffff;
+	--bg-btn: #32303b;
+	--bg-btn-hover: #38353e;
+	--btn-negative-clr: #000000cd;
+	--bg-negative: #ff4646;
+	--bg-negative-hover: #ff5252;
+	--primary: #00ffff;
+	--btn-primary-clr: #000000cd;
+	--bg-primary: #00ecef;
+	--bg-primary-hover: #88ffff;
+}

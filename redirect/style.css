@@ -1,0 +1,67 @@
+@import url(/css/default.css);
+
+body {
+	height: 100dvh;
+	margin: 0;
+
+	display: grid;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.main {
+	min-width: 13em;
+	max-width: 52em;
+	margin-inline: auto;
+	padding-inline: 32px;
+	/*position: absolute;
+	top: 50vh;
+	transform: translateY(-50%);
+	padding-right: 2rem;*/
+}
+
+h1 {
+	margin: 0;
+}
+
+.main > *+* {
+	margin-top: 2em;
+	margin-bottom: 0;
+}
+
+.blocked-page-url {
+	font-family: monospace;
+	font-weight: 600;
+	font-size: 1.1em;
+	padding: .1em .3em;
+	background-color: #0b0b1132;
+	border-radius: .3em;
+}
+
+.override-form {
+	display: grid;
+	gap: 1rem .5rem;
+}
+
+@media screen and (min-width: 480px) {
+	.override-form {
+		grid-template-columns: min-content 1fr min-content;
+	}
+	#override-len {
+		grid-row: 2;
+	}
+	label[for="custom-time"] {
+		grid-column: 2;
+		grid-row: 1;
+	}
+	#custom-time {
+		grid-row: 2;
+	}
+	label[for="password"] {
+		grid-row: 3;
+	}
+	#password {
+		grid-column: 1 / -2;
+	}
+}

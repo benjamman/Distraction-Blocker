@@ -1,0 +1,44 @@
+@import url(/css/colors.css);
+@import url(/css/buttons.css);
+
+:root {
+	scroll-behavior: smooth;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+:focus {
+	outline: 2px solid #00ffff;
+}
+
+body {
+	font-family: Inter, sans-serif;
+	color: var(--clr);
+	background-color: var(--bg);
+	margin: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	font-weight: 200;
+	margin-block: 0;
+}
+
+h2,h3,h4,h5,h6,p {
+	padding-block: 0;
+	margin-block: 1.2em 0;
+}
+
+h1 {
+	font-size: 2.2rem;
+	line-height: 1.2;
+}
+
+a {
+	color: var(--primary);
+}
+
+p {
+	line-height: 1.5;
+}

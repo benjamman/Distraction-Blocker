@@ -1,0 +1,34 @@
+.input, .text-input, .time-input, .button, .select {
+	color: var(--clr-btn);
+	background-color: var(--bg-btn);
+	font-size: 1rem;
+	border: none;
+	padding: .5em 1em;
+	border-radius: .2em;
+}
+
+.button:hover, .select:hover, .input:hover {
+	background-color: var(--bg-btn-hover);
+}
+
+.button, .select {
+	font-weight: 600;
+}
+
+.button.negative {
+	color: var(--btn-negative-clr);
+	background-color: var(--bg-negative);
+}
+
+.button.negative:hover {
+	background-color: var(--bg-negative-hover);
+}
+
+.button.primary {
+	color: var(--btn-primary-clr);
+	background-color: var(--bg-primary);
+}
+
+.button.primary:hover {
+	background-color: var(--bg-primary-hover);
+}

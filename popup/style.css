@@ -1,0 +1,26 @@
+@import url(/css/default.css);
+
+body {
+    width: 350px;
+}
+
+header {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: .85rem;
+}
+
+.settings-icon {
+    position: absolute;
+    right: 1rem;
+}
+
+hr {
+    margin-top: 0;
+    opacity: .2;
+}

@@ -1,0 +1,57 @@
+{
+    "manifest_version": 2,
+    "name": "Distraction Blocker",
+    "description": "Blocks distracting sites to help you stay productive.",
+    "version": "0.0.1",
+    "icons": {
+        "64": "icons/icon.svg"
+    },
+    "permissions": [
+        "<all_urls>",
+        "storage",
+        "webRequest",
+        "webRequestBlocking",
+        "webNavigation"
+    ],
+    "web_accessible_resources": [
+        "redirect/index.html",
+        "options/index.html"
+    ],  
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    // "content_scripts": [
+    //     {
+    //         "matches": [
+    //             "<all_urls>"
+    //         ],
+    //         "js": [
+    //             "content_script.js"
+    //         ]
+    //     }
+    // ],
+    "browser_action": {
+        "default_icon": {
+            "16": "icons/dark-symbolic.svg",
+            "32": "icons/dark-symbolic.svg"
+        },
+        "default_title": "Distraction Blocker Quick Settings",
+        "default_popup": "popup/index.html",
+        "theme_icons": [
+            {
+                "light": "icons/light-symbolic.svg",
+                "dark": "icons/dark-symbolic.svg",
+                "size": 16
+            }, 
+            {
+                "light": "icons/light-symbolic.svg",
+                "dark": "icons/dark-symbolic.svg",
+                "size": 32
+            }
+        ]
+    },
+    "options_ui": {
+        "page": "options/index.html"
+    }
+}

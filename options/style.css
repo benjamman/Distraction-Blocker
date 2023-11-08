@@ -1,0 +1,121 @@
+@import url(/css/default.css);
+@import url(/css/sidebar.css);
+
+h1 {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    margin-block: 1rem 0;
+}
+
+h2 {
+    font-size: clamp(1.4rem, 3.7vw, 1.8rem);
+}
+
+h3 {
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+}
+
+h4 {
+    font-size: clamp(1.1rem, 2.7vw, 1.25rem);
+}
+
+.main-content {
+    max-width: 90ch;
+}
+
+@media screen and (min-width: 1600px) {
+    .primary-navigation {
+        position: fixed;
+    }
+
+    .main-content {
+        margin-inline: auto;
+    }
+}
+
+.settings-section {
+    margin-top: 1em;
+}
+
+.settings-section *+h3 {    
+    margin-top: 3rem;
+}
+
+.settings-section > *+* {
+    margin-top: .4em;
+}
+
+.shift-list, .domain-list {
+    margin: 0;
+    padding: 0;
+}
+
+.domain-list {
+    list-style: none;
+    padding: 0;
+}
+
+.shift-list li, 
+.domain-list li {
+    padding: .7em 1em;
+    list-style-position: inside;
+    margin-block: .5em;
+    background-color: #292730;
+    border-radius: .3em;
+}
+
+.shift-list li .input,
+.domain-list li .input {
+    padding: .3em;
+}
+
+.domain-list li {
+    display: flex;
+    gap: 1ch;
+} 
+
+.domain-list li .input {
+    width: 100%;
+}
+
+.domains-import-export-flex-wrapper {
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+@media screen and (min-width: 600px) {
+    .shift-list li, 
+    .domain-list li {
+        max-width: 26.5em;
+    }
+
+    .domain-list li { align-items: center; }
+
+    .domains-import-export-flex-wrapper {
+        max-width: 30ch;
+    }
+}
+@media screen and (max-width: 600px) {
+    .input, .select {
+        width: 100%;
+        margin-block: .3em;
+    }
+
+    #work-hours-form,
+    #free-hours-form {
+        display: flex;
+        flex-direction: column;
+        gap: .4em;
+    }
+
+    .shift-list li {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .domain-list li {
+        flex-direction: column;
+    }
+}
