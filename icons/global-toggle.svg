@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+    <style>
+    @media (prefers-color-scheme: dark) {
+      rect {
+        fill: #e9e9ec!important;
+      }
+      path {
+        stroke: #e9e9ec!important;
+      }
+    }
+  </style>
+  <defs>
+    <bx:grid x="0" y="0" width="27.817" height="27.817"/>
+  </defs>
+  <path style="fill: none; stroke-linecap: round; stroke-width: 50px; stroke: rgb(28, 29, 30); transform-box: fill-box; transform-origin: 50% 50%;" d="M 249.46 69.214 C 396.986 69.214 489.191 228.711 415.428 356.309 C 341.664 483.905 157.256 483.905 83.494 356.309 C 73.13 338.38 65.951 318.848 61.632 298.601 C 55.04 267.701 47.103 209.199 98.684 146.787" transform="matrix(0.894811, 0.446445, -0.446445, 0.894811, 0.000005, 0)"/>
+  <rect x="222.536" width="55.634" height="166.902" rx="27.817" ry="27.817" style="fill: rgb(28, 29, 30);" y="13.529"/>
+</svg>
