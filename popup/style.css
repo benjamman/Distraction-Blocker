@@ -24,3 +24,37 @@ hr {
     margin-top: 0;
     opacity: .2;
 }
+
+.global-toggle-wrapper {
+    width 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#global-toggle {
+    color: var(--clr);
+    width: 180px;
+    height: 180px;
+    background: none;
+    border: none;  
+    position: relative;
+}
+
+#global-toggle::after {  
+    content: "";
+    background-color: var(--bg-btn);
+    -webkit-mask-image: url(/icons/global-toggle.svg);
+    mask-image: url(/icons/global-toggle.svg);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#global-toggle.enabled::after {
+    background-color: var(--bg-primary);
+}
