@@ -22,7 +22,9 @@ window.addEventListener("load", () => {
 		}
 		customTimeLebel.style.display = "none";
 		customTimeInput.style.display = "none";
-		overrideLength = this.value;
+		overrideLength = Number(this.value);
+
+		console.log(overrideLength);
 	};
 	document.getElementById("custom-time").onchange = function() {
 		overrideLength = this.value * 60000;
@@ -32,12 +34,12 @@ window.addEventListener("load", () => {
 			alert("Incorrect password");
 			return;
 		}
-		console.log("Disabling blocking");
-
+		const restartBlocking = Date.now() + overrideLength;
 		browser.storage.local.set({
 			blocking: false,
-			restartBlocking: Date.now() + overrideLength
+			restartBlocking
 		});
+		console.log("Disabling blocking. Will restart at:", restartBlocking);
 		location.replace(params.get("page"));
 	};
 });
