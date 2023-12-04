@@ -1,3 +1,5 @@
+//Deprecated??
+
 console.log("Productivity Blocker Extension Loaded.");
 
 const channel = new MessageChannel();
