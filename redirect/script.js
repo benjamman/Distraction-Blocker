@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
 		}
 		customTimeLebel.style.display = "none";
 		customTimeInput.style.display = "none";
-		overrideLength = Number(this.value);
+		overrideLength = this.value;
 
 		console.log(overrideLength);
 	};
@@ -30,14 +30,16 @@ window.addEventListener("load", () => {
 		overrideLength = this.value * 60000;
 	};
 	document.getElementById("override-button").onclick = async () => {
-		if (document.getElementById("password").value !== (await browser.storage.local.get()).password) {
+		if (document.getElementById("password").value !== (await browser.storage.local.get()).preferences.block_page.password) {
 			alert("Incorrect password");
 			return;
 		}
-		const restartBlocking = Date.now() + overrideLength;
+		const restartBlocking = Date.now() + Number(overrideLength);
 		browser.storage.local.set({
-			blocking: false,
-			restartBlocking
+			blocking: {
+                enabled: false,
+                reEnable: restartBlocking
+            }
 		});
 		console.log("Disabling blocking. Will restart at:", restartBlocking);
 		location.replace(params.get("page"));

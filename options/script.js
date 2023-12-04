@@ -65,6 +65,23 @@ window.addEventListener("load", () => {
 		TODO:: Handle whitelist settings
 	*/
 
+	/*  								*\
+		### Data & Syncing Section ###
+	\*  								*/
+
+     document.getElementById("clear-local-data").onclick = function() {
+        if (confirm("This will clear local Distraction Blocker storage.\nAre you sure you want to do that?")) {
+            browser.storage.local.clear();
+            browser.runtime.reload();
+        }
+    };
+    document.getElementById("clear-sync-data").onclick = function() {
+        if (confirm("This will clear all synced Distraction Blocker storage.\nAre you sure you want to do that?")) {
+            browser.storage.sync.clear();
+            browser.runtime.reload();
+        }
+    };
+
 });
 
 window.addEventListener("scroll", () => {
