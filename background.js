@@ -27,7 +27,7 @@ async function init(){
                 },
                 block_page: {
                     type: "password",
-                    // This doesn't need to be secore, it really doesn't matter since
+                    // This doesn't need to be secure, it really doesn't matter since
                     // it's just to make you think while you type it
                     password: "unblockpls"
                 }
