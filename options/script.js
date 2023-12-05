@@ -1,8 +1,10 @@
-let sectionLinks;
-let sectionIds;
+let sectionLinks, sectionIds;
 
-window.addEventListener("load", () => {
-	/*
+window.addEventListener("load", async () => {
+    // Just to not have to grab options over and over on initial load
+    let options = (await browser.storage.local.get()).preferences;
+
+    /*
 		Get the sections for highlighting them later.
 		It's done here for performance, but realistically the section IDs could be 
 		hard-coded a potential security benefit and a small somewhat inconsiquential 
@@ -49,9 +51,11 @@ window.addEventListener("load", () => {
 		Domain List settings
 	*/
 
-	// TODO:: Display current settings on page load
-	document.getElementById("blacklist-whitelist-select").onchange = function() {
-		if (this.value === "blacklist") {
+
+    function changeDomainList() { 
+        // Swap between black/white list
+        // UI only, the actually settings change when you press the save button for either list
+		if (document.getElementById("blacklist-whitelist-select").value === "blacklist") {
 			document.getElementById("whitelist-form").style.display = "none";
 			document.getElementById("blacklist-form").style.display = "";
 			return;
@@ -60,6 +64,13 @@ window.addEventListener("load", () => {
 		document.getElementById("whitelist-form").style.display = "";
 	};
 
+    // Swap domain lists when the selected value changes
+    document.getElementById("blacklist-whitelist-select").onchange = changeDomainList;
+
+	// Display current Domain List settings on page load
+    document.getElementById("blacklist-whitelist-select").value = options.blocking_rules.list_type;
+    changeDomainList();
+    
 	/*
 		TODO:: Handle blacklist settings
 		TODO:: Handle whitelist settings

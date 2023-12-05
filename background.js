@@ -19,6 +19,7 @@ async function init(){
                     }
                 },
                 blocking_rules: {
+                    list_type: "blacklist",
                     blacklist: {
                         sites: [
                             "youtube.com"
