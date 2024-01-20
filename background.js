@@ -31,6 +31,17 @@ async function init(){
                     // This doesn't need to be secure, it really doesn't matter since
                     // it's just to make you think while you type it
                     password: "unblockpls"
+                },
+                theme: {
+
+                },
+                syncing: {
+                    sync_enabled: true,
+                    general: true,
+                    blocking_rules: true,
+                    blocking_rules_overrides: false,
+                    block_page: true,
+                    theme: true
                 }
             }
         });
