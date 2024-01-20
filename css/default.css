@@ -1,8 +1,11 @@
 @import url(/css/colors.css);
 @import url(/css/buttons.css);
 
-:root {
-	scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+    html, :has(:target) {
+    	scroll-behavior: smooth;
+        scroll-padding: 1.6rem;
+    }
 }
 
 * {
