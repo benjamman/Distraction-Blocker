@@ -28,14 +28,27 @@ window.addEventListener("load", async () => {
 		Routine settings
 	*/
 
-	// TODO:: Display current settings on page load
-	document.getElementById("routine-select").onchange = function() {
+    function changeRoutineType() {
+        const value = document.getElementById("routine-select").value;
 		for (const routineForm of document.getElementsByClassName("routine-form")) {
 			routineForm.style.display = "none";
 		}
-		if (this.value === "none") return;				// TODO:: Save this value
-		document.getElementById(this.value+"-form").style.display = "";
-	};
+        // Set routine type setting
+        browser.storage.local.set({
+            preferences: { general: { routine: {
+                type: value
+            }}}
+        });
+		if (value === "none") return;
+		document.getElementById(value+"-form").style.display = "";
+	}
+
+    // Swap routine type setting when selected value changes
+	document.getElementById("routine-select").onchange = changeRoutineType;
+
+    // Display current routine settings on page load
+    document.getElementById("routine-select").value = options.general.routine.type;
+    changeRoutineType();
 
 	/*
 		TODO:: Handle work hours settings
