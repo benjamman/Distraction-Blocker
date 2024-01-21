@@ -28,17 +28,15 @@ window.addEventListener("load", async () => {
 		Routine settings
 	*/
 
-    function changeRoutineType() {
+    async function changeRoutineType() {
         const value = document.getElementById("routine-select").value;
 		for (const routineForm of document.getElementsByClassName("routine-form")) {
 			routineForm.style.display = "none";
 		}
         // Set routine type setting
-        browser.storage.local.set({
-            preferences: { general: { routine: {
-                type: value
-            }}}
-        });
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.routine.type = value;
+        browser.storage.local.set(storage);
 		if (value === "none") return;
 		document.getElementById(value+"-form").style.display = "";
 	}
