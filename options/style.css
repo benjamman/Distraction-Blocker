@@ -20,6 +20,7 @@ h4 {
 
 .main-content {
     max-width: 90ch;
+    padding-bottom: 2rem;
 }
 
 @media screen and (min-width: 1600px) {

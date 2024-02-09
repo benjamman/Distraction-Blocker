@@ -53,8 +53,6 @@
 
 .main-content {
     padding-inline: 1rem;
-
-    height: 4000px;
 }
 
 @media screen and (max-width: 600px) {
