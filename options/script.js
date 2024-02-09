@@ -20,9 +20,45 @@ window.addEventListener("load", async () => {
 	/*
 		On/off at start setting
 	*/
-	document.getElementById("on-at-start-select").onchange = function() {
-		console.log(this.value);						// TODO:: Change the setting here
+	document.getElementById("on-at-start-select").onchange = async function() {
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.autostart = this.value=="true";
+        browser.storage.local.set(storage);
 	};
+
+    /*
+        Time limit settings
+    */
+    // Update the UI for if the time limit is enabled
+    if (options.general.timeLimit.enabled) {
+        document.getElementById("time-limit-form").style.display = "";
+        document.getElementById("time-limited-select").value = 1;
+    } else {
+        document.getElementById("time-limit-form").style.display = "none";
+        document.getElementById("time-limited-select").value = 0;
+    }
+    // Update the UI to show the current time limit
+    // This happens regardless of whether it's enabled when the page is loaded because when
+    // it's not enabled and you enabled it then it will be set to the correct time.
+    document.getElementById("time-limit-hours").value = Math.floor((options.general.timeLimit.time/60000)/60);
+    document.getElementById("time-limit-minutes").value = Math.floor((options.general.timeLimit.time/60000)%60);
+    // When the time limit select is used update the UI and settings accordingly
+    document.getElementById("time-limited-select").onchange = async function() {
+        document.getElementById("time-limit-form").style.display = this.value == 1 ? '' : "none";
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.timeLimit.enabled = this.value==1;
+        browser.storage.local.set(storage);
+    };
+    // When the "Update Time Limit" button is pressed save the current time limit and enable it
+    document.getElementById("save-time-limit").onclick = async function (e) {
+        e.preventDefault();
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.timeLimit.enabled = true;
+        storage.preferences.general.timeLimit.time = 
+            Math.floor((document.getElementById("time-limit-hours").value*60000)*60)+
+            Math.floor(document.getElementById("time-limit-minutes").value*60000);
+        browser.storage.local.set(storage);
+    };
 
 	/*
 		Routine settings
@@ -33,16 +69,32 @@ window.addEventListener("load", async () => {
 		for (const routineForm of document.getElementsByClassName("routine-form")) {
 			routineForm.style.display = "none";
 		}
-        // Set routine type setting
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.routine.type = value;
-        browser.storage.local.set(storage);
-		if (value === "none") return;
+        if (value == "none") return;
 		document.getElementById(value+"-form").style.display = "";
+        let storage = await browser.storage.local.get();
+        switch (value) {
+            case "work-hours":
+                if (!storage.preferences.general.routine.hours[0]) break;
+                document.getElementById("work-hours-start-time").value = storage.preferences.general.routine.hours[0].start;
+                document.getElementById("work-hours-end-time").value = storage.preferences.general.routine.hours[0].end;
+                break;
+            case "free-hours":
+                if (!storage.preferences.general.routine.hours[0]) break;
+                document.getElementById("free-hours-start-time").value = storage.preferences.general.routine.hours[1].start;
+                document.getElementById("free-hours-end-time").value = storage.preferences.general.routine.hours[1].end;
+                break;
+            default:
+                break;
+        }
 	}
 
     // Swap routine type setting when selected value changes
-	document.getElementById("routine-select").onchange = changeRoutineType;
+	document.getElementById("routine-select").onchange = async function() {
+        changeRoutineType();
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.routine.type = this.value;
+        browser.storage.local.set(storage);
+    };
 
     // Display current routine settings on page load
     document.getElementById("routine-select").value = options.general.routine.type;
@@ -53,6 +105,31 @@ window.addEventListener("load", async () => {
 		TODO:: Handle free hours settings
 		TODO:: Handle shift settings
 	*/
+
+    async function saveRoutine(hours, type) {
+        let storage = await browser.storage.local.get();
+        storage.preferences.general.routine.type = type;
+        let routineIndex = ["work-hours","free-hours","work-shifts"].indexOf(type);
+        storage.preferences.general.routine.hours[routineIndex] = hours;
+        browser.storage.local.set(storage);
+        alert("Routine Saved!");
+    }
+
+    document.getElementById("save-work-hours").onclick = function(e) {
+        e.preventDefault();
+        saveRoutine({
+            start: document.getElementById("work-hours-start-time").value,
+            end:   document.getElementById("work-hours-end-time").value
+        }, "work-hours");
+    }
+
+    document.getElementById("save-free-hours").onclick = function(e) {
+        e.preventDefault();
+        saveRoutine({
+            start: document.getElementById("free-hours-start-time").value,
+            end:   document.getElementById("free-hours-end-time").value
+        }, "free-hours");
+    }
 
 	/*  								*\
 		### Blocking Rules Section ###
