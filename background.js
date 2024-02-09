@@ -12,10 +12,19 @@ async function init(){
             preferences: {
                 general: {
                     autostart: true,
+                    timeLimit: {
+                        enabled: false,
+                        time: 10800000
+                    },
                     routine: {
                         // By default no routine, I'm not guessing other's routines
                         type: "none",
-                        hours: [] // Just so it exists later
+                        hours: [
+                            { "start": "09:00:00", "end": "17:00:00" }, // Reserved for work-hours routine type
+                            { "start": "09:00:00", "end": "17:00:00" }, // Reserved for free-hours routine type
+                            // Reserved for work-shifts routine type
+                            [{ "start": "09:00:00", "end": "12:00:00" }, { "start": "13:00:00", "end": "17:00:00" }]
+                        ]
                     }
                 },
                 blocking_rules: {
@@ -73,6 +82,7 @@ browser.webRequest.onBeforeRequest.addListener(
       return { redirectUrl: redirectUrl+"?page="+details.url };
     }
 
+    // If it's passed the time that blocking is set to turn back on, either through a schedule or from the redirect page, enable blocking.
     const restartBlocking = (await browser.storage.local.get()).blocking.reEnable;
     if (restartBlocking > 0 && !blocking && Date.now() > restartBlocking) {
         console.log("Turning blocking back on");
