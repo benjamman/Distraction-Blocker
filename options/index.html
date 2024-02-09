@@ -25,12 +25,6 @@
                         <a href="#block-page" class="primary-navigation-section-link">
                             <li class="navigation-item">Block Page</li>
                         </a>
-                        <a href="#theme" class="primary-navigation-section-link">
-                            <li class="navigation-item">Theme</li>
-                        </a>
-                        <a href="#puzzles" class="primary-navigation-section-link">
-                            <li class="navigation-item">Puzzles</li>
-                        </a>
                         <a href="#data-and-syncing" class="primary-navigation-section-link">
                             <li class="navigation-item">Data & Syncing</li>
                         </a>
@@ -51,39 +45,55 @@
                         <option value="false">Manual</option>
                     </select>
 
+                    <h3>Time Limit</h3>
+                    <p>Should distraction time be limited?</p>
+                    <select class="input" id="time-limited-select">
+                        <option value="0">No Limit</option>
+                        <option value="1">Limit Time</option>
+                    </select>
+                    <form id="time-limit-form">
+                        <h4>Limited To</h4>
+                        <label for="hours">Hours</label>
+                        <input id="time-limit-hours" type="number" name="hours" class="input" min="0" max="24" value="3" style="width:8ch;margin-block:.5em;" />
+                        <label for="minutes">Minutes</label>
+                        <input id="time-limit-minutes" type="number" name="minutes" class="input" min="0" max="60" value="0" style="width:8ch" />
+                        <br />
+                        <input id="save-time-limit" type="submit" class="button primary" value="Update Time Limit">
+                    </form>
+
                     <h3>Routine</h3>
                     <p>During what hours whould you like distractions to be blocked?</p>
                     <select name="routine" id="routine-select" class="select">
                         <option value="none">No Routine</option>
                         <option value="work-hours">Work Hours</option>
+                        <option value="free-hours">Free Hours</option>
                         <option value="shifts">Work Shifts</option>
-                        <option value="free-hours">Allow Free Time</option>
                     </select>
 
                     <form id="work-hours-form" class="routine-form">
                         <h4>Work Hours</h4>
-                        <span>Your work hours are,</span>
+                        <span>Distractions are prohibited,</span>
                         <label for="from">From</label>
-                        <input name="from" class="time-input input" type="time" value="09:00:00" />
+                        <input name="from" id="work-hours-start-time" class="time-input input" type="time" value="09:00:00" />
                         <label for="to">To</label>
-                        <input name="to" class="time-input input" type="time" value="17:00:00" />
+                        <input name="to" id="work-hours-end-time" class="time-input input" type="time" value="17:00:00" />
                         <br/>
-                        <input class="button input primary" type="submit" value="Save" />
+                        <input id="save-work-hours" class="button input primary" type="submit" value="Update Hours"/>
                     </form>
 
                     <form id="free-hours-form" class="routine-form">
                         <h4>Free Hours</h4>
                         <span>Distractions are allowed,</span>
                         <label for="from">From</label>
-                        <input name="from" class="time-input input" type="time" value="17:30:00" />
+                        <input name="from" id="free-hours-start-time" class="time-input input" type="time" value="17:30:00" />
                         <label for="to">To</label>
-                        <input name="to" class="time-input input" type="time" value="20:00:00" />
+                        <input name="to" id="free-hours-end-time" class="time-input input" type="time" value="20:00:00" />
                         <br/>
-                        <input class="button primary" type="submit" value="Save" />
+                        <input id="save-free-hours" class="button primary" type="submit" value="Update Hours" />
                     </form>
 
                     <form id="shifts-form" class="routine-form">
-                        <h4>Your Shifts</h4>
+                        <h4>Your Shifts - <span style="color: #f67; font-weight: 900;">UNIMPLEMENTED! Coming soon.</h4>
                         <ol class="shift-list">
                             <li>
                                 <label for="from">Start</label>
@@ -99,11 +109,12 @@
                             </li>
                         </ol>
                         <input class="button input" type="button" value="Add Shift" />
-                        <input class="button input primary" type="submit" value="Save" />
+                        <input class="button input primary" type="submit" value="Update Hours" />
                     </form>
                 </section>
-                <h2 id="blocking-rules">Blocking Rules</h2>
-                <section class="settings-section">
+
+                <section class="settings-section" aria-labeledby="blocking-rules">
+                    <h2 id="blocking-rules">Blocking Rules</h2>
                     <h3>Domain List</h3>
                     <p>List of domains to either block via "Blacklist" or allow via "Whitelist."</p>
                     <select id="blacklist-whitelist-select" class="select">
@@ -155,17 +166,18 @@
                 </section>
 
                 <h2 id="block-page">Block Page</h2>
-                <p>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et, magni veniam, nam dignissimos similique maiores temporibus modi quia quas? Rerum aut, maiores suscipit sequi eum animi. Aliquam sequi cumque adipisci nostrum veritatis deleniti est itaque officiis unde fugiat perferendis esse nemo suscipit, asperiores repudiandae, nam vero necessitatibus, quisquam quam nulla corrupti voluptatum numquam, minus. Dolorum, tempora suscipit similique, aperiam vero eos maiores! Ipsam recusandae officia perferendis rem repudiandae quisquam assumenda quos quo exercitationem? Quae sunt, quaerat esse quam deserunt voluptas totam optio cumque similique? Laborum placeat quisquam, iure natus libero officia deleniti asperiores blanditiis beatae eum a, enim ipsum earum ex maiores ad in esse sit quo delectus sunt laboriosam quibusdam tenetur dolor doloribus? Ullam eos, ad dolorem laborum illum, velit possimus ipsum nihil qui perferendis voluptas repudiandae debitis, nesciunt quam totam blanditiis tempore vitae cupiditate dignissimos, vero eligendi inventore libero aliquam eveniet incidunt. Iste sit necessitatibus fugiat molestias rerum ratione ipsa at cumque dolor? Repellat a unde ratione quod ad architecto totam ex aliquam, sit voluptatum eum fugit, laborum. Commodi aut cum provident ducimus esse atque, voluptatum. Voluptates, omnis!
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis, nisi libero molestias in soluta et eveniet aliquam veniam quidem fugiat alias. Voluptatem obcaecati repudiandae ullam voluptas, ducimus quisquam fugit molestias nobis voluptates in odio ad est dolore illo a tempore excepturi fuga deleniti. Quae voluptatibus ex alias eum eaque nesciunt, tenetur qui, ullam beatae, illum mollitia necessitatibus libero commodi dicta pariatur iusto officia doloribus! Repellendus, tempora. Corporis dignissimos veniam esse iusto quisquam temporibus, dicta, eveniet laudantium vero nobis ad architecto natus unde necessitatibus sint magni quaerat at, fugit dolores debitis.</p>
-                <h2 id="theme">Theme</h2>
-                <p>
-                    Lorem ipsum, dolor sit, amet consectetur adipisicing elit. Deleniti deserunt praesentium doloremque culpa, vel qui corporis consequatur eum quis rem alias veniam. Eveniet dolorem assumenda iusto! Soluta, libero. Voluptates repudiandae rem aliquam mollitia corrupti ipsam eos amet obcaecati quos corporis quis dicta quasi omnis dolore nostrum quae, culpa soluta sunt similique voluptatum temporibus quod sit. Laboriosam molestiae, beatae at maiores eveniet illo, sed quos hic suscipit cum odit distinctio minus quisquam repudiandae tenetur asperiores aspernatur assumenda sint, nihil sit enim? Consequuntur incidunt autem possimus quasi repellat hic commodi sapiente provident exercitationem corrupti. Quaerat, hic? Aperiam repellendus ex odit sunt sit corrupti nemo assumenda dolore eveniet reprehenderit, facilis praesentium deserunt, cumque temporibus itaque, architecto et maxime soluta commodi sed tempore. Suscipit aliquam dolorum enim inventore odio amet praesentium mollitia, saepe quasi nulla expedita, sit architecto fugit debitis? Nulla delectus, error cum velit, dolorum doloremque omnis autem natus distinctio assumenda eaque voluptatibus consectetur odit placeat unde culpa dignissimos possimus. Corporis assumenda quod saepe similique labore, accusamus, dolorem. Sint esse dolorem hic nisi, doloremque. Aliquid saepe nostrum beatae veniam sed illo voluptatum perspiciatis?
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae facere, veniam accusamus adipisci, consequatur nemo minus tempora atque placeat, reiciendis facilis repudiandae commodi explicabo laudantium modi repellendus itaque, voluptatibus nam.</p>
-                <h2 id="puzzles">Puzzles</h2>
-                <p>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Vel quia nihil omnis rem labore officia porro dolorum aspernatur, soluta minus animi enim quae tempora laudantium ad at obcaecati dolor nam error praesentium voluptatum numquam. Placeat, accusantium. Deleniti, voluptates, error corrupti consectetur blanditiis dolorum. Officia sapiente, ipsa! Aliquam impedit tenetur consequatur rerum debitis voluptatibus commodi laborum minus odio ut est qui quia soluta vero aliquid dolores vel, accusantium nihil eum? Vero neque quos repellat ex nisi illum expedita dolorum laboriosam, saepe tempore optio sapiente, molestias? Inventore necessitatibus amet magnam porro expedita ipsam laudantium, voluptatibus officia cumque eaque provident tempora illum temporibus alias ratione harum odit sequi exercitationem reiciendis repellendus, dicta quis autem ipsa nam, quibusdam. Similique, aliquam, inventore possimus non ad eos molestias soluta modi, perferendis, fugit maiores. Neque autem eius quisquam minus ullam id aspernatur pariatur officia, magni laboriosam sit fuga voluptate! Repellendus officiis quod laboriosam suscipit rem, iure assumenda atque? Praesentium fugiat reprehenderit ducimus animi repellat maiores totam dolor consequatur. Quasi dignissimos sunt molestiae, rem at est ducimus vel autem nisi animi provident quos earum corporis qui. Aliquid, itaque.
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eos laudantium qui vitae, nemo dolor, consequuntur? Eligendi, rerum dolorem exercitationem voluptatum, neque soluta odit, esse obcaecati natus assumenda unde provident beatae.</p>
+                <section class="settings-section" aria-labeledby="block-page"> 
+                    <h3>Page Type</h3>
+                    <p>What type of page would you like it to redirect to?</p>
+                    <select class="select">
+                        <option value="password">Password</option>
+                        <option value="wait">Timer Button</option>
+                        <option value="quiz">Answer a Quiz</option>
+                        <option value="fake-tos">Read fake Terms & Conditions</option>
+                        <option value="custom">Custom Page</option>
+                    </select>
+                </section>
+
                 <section class="settings-section" aria-labeledby="data-and-syncing">
                     <h2 id="data-and-syncing">Data & Syncing</h2>
                     <h3>Syncing</h3>
