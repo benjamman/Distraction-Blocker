@@ -11,7 +11,9 @@
         "storage",
         "webRequest",
         "webRequestBlocking",
-        "webNavigation"
+        "webNavigation",
+        "tabs",
+        "idle"
     ],
     "web_accessible_resources": [
         "redirect/index.html",
@@ -21,17 +23,7 @@
         "scripts": ["background.js"],
         "persistent": false
     },
-    // "content_scripts": [
-    //     {
-    //         "matches": [
-    //             "<all_urls>"
-    //         ],
-    //         "js": [
-    //             "content_script.js"
-    //         ]
-    //     }
-    // ],
-    "browser_action": {
+   "browser_action": {
         "default_icon": {
             "16": "icons/dark-symbolic.svg",
             "32": "icons/dark-symbolic.svg"
