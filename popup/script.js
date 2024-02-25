@@ -7,10 +7,13 @@ window.addEventListener("load", async () => {
         toggleButton.classList.add("enabled");
         toggleButton.textContent = "Turn Off";
     }
+    // Show stats
+    let timeDistracted = (await browser.storage.local.get()).stats.timeDistracted;
+    document.getElementById("time-distracted").textContent = Math.floor((timeDistracted/60)/60)+":"+Math.floor((timeDistracted/60)%60);
     // Handle global toggle button
     toggleButton.onclick = async function() {
         const storage = (await browser.storage.local.get());
-        if (storage.blocking) {
+        if (storage.blocking.enabled) {
             document.body.style.width = "555px";
             const unlock = await prompt("Please input the unblocking passphraze") === storage.preferences.block_page.password;
             if (!unlock) {
@@ -21,13 +24,18 @@ window.addEventListener("load", async () => {
             document.body.style.width = "349px";
         }
         // Toggle the enabled class and text content
-        this.classList.toggle("enabled");
-        const enabled = this.classList.contains("enabled");
-        this.textContent = enabled ? "Turn Off" : "Turn On";
+        let enabled = !storage.blocking.enabled;
+        if (enabled) {
+            this.classList.add("enabled");
+            this.textContent = "Turn On";
+        } else {
+            this.classList.remove("enabled");
+            this.textContent = "Turn Off";
+        }
         // Toggle blocking state
         browser.storage.local.set({
             blocking: {
-                enabled: true
+                enabled: enabled
             }
         });
         console.log("Turned Blocking", enabled ? "On" : "Off");

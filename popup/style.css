@@ -58,3 +58,31 @@ hr {
 #global-toggle.enabled::after {
     background-color: var(--bg-primary);
 }
+
+/*
+.stats-wrapper {
+    display: grid;
+    justify-content: center;
+}
+*/
+
+#stats-heading {
+    font-size: 1rem;
+    text-align: center;
+}
+
+#stats-table {
+    padding: 1rem;
+    margin-inline: auto;
+}
+
+th {
+    font-weight: 500;
+    padding-right: 1em;
+}
+td {
+    padding-inline: .5em;
+    text-align: center;
+    border: 1px solid #ffffff23;
+}
+
