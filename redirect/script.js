@@ -42,6 +42,10 @@ window.addEventListener("load", () => {
             }
 		});
 		console.log("Disabling blocking. Will restart at:", restartBlocking);
-		location.replace(params.get("page"));
+        window.history.back();
+        // If window.history.back() doesn't have a page to go to, which shouldn't usually be possible
+        // It would be best if we could check what the last page was or manipulate the history to
+        // make sure the browser goes back to the right page, not sure how we would do that though.
+        window.location.replace(params.get("page"));
 	};
 });
