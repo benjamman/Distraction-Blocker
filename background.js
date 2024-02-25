@@ -9,6 +9,9 @@ async function init(){
                 enabled: true,
                 reEnable: null
             },
+            stats: {
+                timeDistracted: 0, // Time spent on distracting pages (in seconds)
+            },
             preferences: {
                 general: {
                     autostart: true,
@@ -41,9 +44,6 @@ async function init(){
                     // it's just to make you think while you type it
                     password: "unblockpls"
                 },
-                theme: {
-
-                },
                 syncing: {
                     sync_enabled: true,
                     general: true,
@@ -56,7 +56,7 @@ async function init(){
         });
     }
     
-    const storage = await browser.storage.local.get();
+    let storage = await browser.storage.local.get();
     blocking = storage.blocking;
     routine = storage.preferences.general.routine;
     
@@ -66,36 +66,66 @@ async function init(){
 let blocking, routine;
 init();
 
-const blockedUrl = "https://www.youtube.com"; // Replace with the URL you want to block
+
+// These two vars need to be replaced with user changable values from browser.storage
+const blockedOrigins = [
+    "https://www.youtube.com"
+];
 const redirectUrl = chrome.extension.getURL("redirect/index.html");
 
-// Event listener for web requests
-browser.webRequest.onBeforeRequest.addListener(
-  async function(details) {
-    blocking = (await browser.storage.local.get()).blocking.enabled ?? true;
 
-    console.log("Blocking:", blocking);
+let lastActive = Date.now();
 
-    // Check if the request is for the blocked URL
-    if (blocking && details.url.indexOf(blockedUrl) !== -1) {
-      // Redirect the request to the local HTML file
-      return { redirectUrl: redirectUrl+"?page="+details.url };
-    }
 
-    // If it's passed the time that blocking is set to turn back on, either through a schedule or from the redirect page, enable blocking.
-    const restartBlocking = (await browser.storage.local.get()).blocking.reEnable;
-    if (restartBlocking > 0 && !blocking && Date.now() > restartBlocking) {
+function isBlocked(pageUrl) { return blockedOrigins.map(url => url == (new URL(pageUrl)).origin).sort().reverse()[0]; }
+
+async function checkBlocking() {
+    let blocking = (await browser.storage.local.get()).blocking;
+    if (blocking.reEnable > 0 && !blocking.enabled && Date.now() > blocking.reEnable) {
         console.log("Turning blocking back on");
         browser.storage.local.set({
           blocking: {
               enabled: true
           }
         });
+        return true;
     }
+    return blocking.enabled;
+}
 
-    // Allow all other requests
-    return { cancel: false };
-  },
-  { urls: ["<all_urls>"] },
-  ["blocking"]
-);
+
+function getActiveTab() { return browser.tabs.query({active: true, currentWindow: true}); }
+
+async function checkActiveTab() {
+    let blocking = await checkBlocking();
+    if (!blocking) return;
+    // Get the active tab
+    getActiveTab().then((tabs) => {
+        let tab = tabs[0];
+        // Check the active tab
+        if (!isBlocked(tab.url)) return;
+        // Passed checks, then block the active tab
+        browser.tabs.update({ url: redirectUrl+"?page="+tab.url });
+    });
+}
+
+browser.tabs.onActivated.addListener(() => checkActiveTab());
+browser.tabs.onUpdated.addListener(() => checkActiveTab());
+
+setInterval(() => {
+    getActiveTab().then(async tabs => {
+        let tab = tabs[0];
+        // When It's been at least 20 seconds since a positive activity check and you've been active for the last 20 seconds
+        if (lastActive < Date.now()-20000 && await browser.idle.queryState(20) === "active" && isBlocked(tab.url)) {
+            lastActive = Date.now();
+            // Update the distraction stats
+            let storage = await browser.storage.local.get();
+            storage.stats.timeDistracted += 20;
+            browser.storage.local.set(storage);
+            // Temp for debug
+            console.log(storage.stats.timeDistracted);
+        }
+        checkActiveTab();
+    });
+}, 20000);
+
