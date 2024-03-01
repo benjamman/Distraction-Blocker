@@ -76,20 +76,33 @@ const redirectUrl = chrome.extension.getURL("redirect/index.html");
 
 let lastActive = Date.now();
 
+async function checkTimeLimit(s) {
+    let storage = s || await browser.storage.local.get();
+    // If the time limit is not enabled there's no sense checking if it's passed
+    if (!storage.preferences.general.timeLimit.enabled) return false;
+    // If time limit is passed return true
+    if (storage.stats.timeDistracted > (storage.preferences.general.timeLimit.time / 1000)) {
+        console.log("Turning blocking back on");
+        browser.storage.local.set({ blocking: { enabled: true } });
+        return true;
+    }
+    return false; // Default to false
+}
 
 function isBlocked(pageUrl) { return blockedOrigins.map(url => url == (new URL(pageUrl)).origin).sort().reverse()[0]; }
 
 async function checkBlocking() {
-    let blocking = (await browser.storage.local.get()).blocking;
-    if (blocking.reEnable > 0 && !blocking.enabled && Date.now() > blocking.reEnable) {
+    let storage = await browser.storage.local.get(),
+        blocking = storage.blocking;
+    // If blocking is already enabled or allowed distracted time is up
+    if (blocking.enabled || await checkTimeLimit(storage)) return true;
+    // Reinable blocking after a break
+    if (blocking.reEnable > 0 && Date.now() > blocking.reEnable) {
         console.log("Turning blocking back on");
-        browser.storage.local.set({
-          blocking: {
-              enabled: true
-          }
-        });
+        browser.storage.local.set({ blocking: { enabled: true } });
         return true;
     }
+    // And otherwise just send back it's current value
     return blocking.enabled;
 }
 
