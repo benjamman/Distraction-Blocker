@@ -17,6 +17,7 @@ async function init(){
                     autostart: true,
                     timeLimit: {
                         enabled: false,
+                        canOverride: true,
                         time: 10800000
                     },
                     routine: {
@@ -76,15 +77,19 @@ const redirectUrl = chrome.extension.getURL("redirect/index.html");
 
 let lastActive = Date.now();
 
+function enableBlocking() {
+    console.log("Turning blocking back on");
+    browser.storage.local.set({ blocking: { enabled: true, reEnable: -1 } });
+    return true;
+}
+
 async function checkTimeLimit(s) {
     let storage = s || await browser.storage.local.get();
     // If the time limit is not enabled there's no sense checking if it's passed
-    if (!storage.preferences.general.timeLimit.enabled) return false;
+    if (!storage.preferences.general.timeLimit.enabled || (storage.blocking.reEnable > 0 && storage.preferences.general.timeLimit.canOverride)) return false;
     // If time limit is passed return true
-    if (storage.stats.timeDistracted > (storage.preferences.general.timeLimit.time / 1000)) {
-        console.log("Turning blocking back on");
-        browser.storage.local.set({ blocking: { enabled: true } });
-        return true;
+    if (storage.stats.timeDistracted >= (storage.preferences.general.timeLimit.time / 1000)) {
+        return enableBlocking();
     }
     return false; // Default to false
 }
@@ -98,9 +103,7 @@ async function checkBlocking() {
     if (blocking.enabled || await checkTimeLimit(storage)) return true;
     // Reinable blocking after a break
     if (blocking.reEnable > 0 && Date.now() > blocking.reEnable) {
-        console.log("Turning blocking back on");
-        browser.storage.local.set({ blocking: { enabled: true } });
-        return true;
+        return enableBlocking();
     }
     // And otherwise just send back it's current value
     return blocking.enabled;
