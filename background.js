@@ -23,6 +23,7 @@ async function init(){
                     routine: {
                         // By default no routine, I'm not guessing other's routines
                         type: "none",
+                        canOverride: true,
                         hours: [
                             { "start": "09:00:00", "end": "17:00:00" }, // Reserved for work-hours routine type
                             { "start": "09:00:00", "end": "17:00:00" }, // Reserved for free-hours routine type
@@ -94,13 +95,42 @@ async function checkTimeLimit(s) {
     return false; // Default to false
 }
 
+async function checkRoutine(s) {
+    let storage = s || await browser.storage.local.get();
+    console.log("Checking routine")
+    // If the routine is not enabled no sense checking if it's passed
+    if (storage.preferences.general.routine.type === "none" || (storage.blocking.reEnable > 0 && storage.preferences.general.routine.canOverride)) return false;
+    // Now to check the routine
+    let now = Date.now(), 
+        start = new Date(), 
+        end = new Date();
+    switch(storage.preferences.general.routine.type) {
+        case "work-hours":
+            let split = storage.preferences.general.routine.hours[0].start.split(":");
+            start.setHours(split[0]); 
+            start.setMinutes(split[1]); 
+            start.setSeconds(split[2]);
+
+            split = storage.preferences.general.routine.hours[0].end.split(":");
+            end.setHours(split[0]); 
+            end.setMinutes(split[1]); 
+            end.setSeconds(split[2]);
+
+            if (start < now && end > now) return true;
+            break;
+        default:
+            return false;
+    }
+    return false; // Default to false
+}
+
 function isBlocked(pageUrl) { return blockedOrigins.map(url => url == (new URL(pageUrl)).origin).sort().reverse()[0]; }
 
 async function checkBlocking() {
     let storage = await browser.storage.local.get(),
         blocking = storage.blocking;
     // If blocking is already enabled or allowed distracted time is up
-    if (blocking.enabled || await checkTimeLimit(storage)) return true;
+    if (blocking.enabled || await checkTimeLimit(storage) || await checkRoutine(storage)) return true;
     // Reinable blocking after a break
     if (blocking.reEnable > 0 && Date.now() > blocking.reEnable) {
         return enableBlocking();
