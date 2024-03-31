@@ -1,8 +1,9 @@
 // background.js
 
 async function init(){
+    let storage = await browser.storage.local.get();
     // On first run setup the default settings
-    if (!(await browser.storage.local.get()).init) {
+    if (!storage.init) {
         browser.storage.local.set({
             init: true,
             blocking: {
@@ -58,14 +59,14 @@ async function init(){
         });
     }
     
-    let storage = await browser.storage.local.get();
-    blocking = storage.blocking;
-    routine = storage.preferences.general.routine;
+    if (!storage.preferences.general.autostart || storage.preferences.general.routine.type !== "none" || storage.preferences.general.timeLimit.enabled) {
+        storage.blocking.enabled = checkBlocking();
+        browser.storage.local.set(storage);
+    }
     
     //blocking = (await browser.storage.local.get()).blocking.enabled ?? true;
 }
 
-let blocking, routine;
 init();
 
 
