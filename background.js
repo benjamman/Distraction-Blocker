@@ -105,9 +105,10 @@ async function checkRoutine(s) {
     let now = Date.now(), 
         start = new Date(), 
         end = new Date();
+    let split;
     switch(storage.preferences.general.routine.type) {
         case "work-hours":
-            let split = storage.preferences.general.routine.hours[0].start.split(":");
+            split = storage.preferences.general.routine.hours[0].start.split(":");
             start.setHours(split[0]); 
             start.setMinutes(split[1]); 
             start.setSeconds(split[2]);
@@ -118,6 +119,19 @@ async function checkRoutine(s) {
             end.setSeconds(split[2]);
 
             if (start < now && end > now) return true;
+            break;
+        case "free-hours":
+            split = storage.preferences.general.routine.hours[1].start.split(":");
+            start.setHours(split[0]); 
+            start.setMinutes(split[1]); 
+            start.setSeconds(split[2]);
+
+            split = storage.preferences.general.routine.hours[1].end.split(":");
+            end.setHours(split[0]); 
+            end.setMinutes(split[1]); 
+            end.setSeconds(split[2]);
+
+            if (start > now || end < now) return true;
             break;
         default:
             return false;
