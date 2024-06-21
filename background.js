@@ -96,45 +96,49 @@ async function checkTimeLimit(s) {
     return false; // Default to false
 }
 
+
+async function checkShift(shift) {
+    let now = Date.now(), 
+        start = new Date(), 
+        end = new Date();
+    let split;
+
+
+    split = shift.start.split(":");
+    console.log("split (start)", split);
+    start.setHours(split[0]); 
+    start.setMinutes(split[1]); 
+    start.setSeconds(split[2]);
+
+    split = shift.end.split(":");
+    console.log("split (end)", split);
+    end.setHours(split[0]); 
+    end.setMinutes(split[1]); 
+    end.setSeconds(split[2]);
+
+    let res = start < now && end > now;
+
+    // console.log("shift", shift);
+    // console.log("checkShift", res);
+
+    return res;
+}
+
 async function checkRoutine(s) {
     let storage = s || await browser.storage.local.get();
     console.log("Checking routine")
     // If the routine is not enabled no sense checking if it's passed
     if (storage.preferences.general.routine.type === "none" || (storage.blocking.reEnable > 0 && storage.preferences.general.routine.canOverride)) return false;
-    // Now to check the routine
-    let now = Date.now(), 
-        start = new Date(), 
-        end = new Date();
-    let split;
+    // Now to check the routine;
     switch(storage.preferences.general.routine.type) {
         case "work-hours":
-            split = storage.preferences.general.routine.hours[0].start.split(":");
-            start.setHours(split[0]); 
-            start.setMinutes(split[1]); 
-            start.setSeconds(split[2]);
+            return checkShift(storage.preferences.general.routine.hours[0]);
 
-            split = storage.preferences.general.routine.hours[0].end.split(":");
-            end.setHours(split[0]); 
-            end.setMinutes(split[1]); 
-            end.setSeconds(split[2]);
-
-            if (start < now && end > now) return true;
-            break;
         case "free-hours":
-            split = storage.preferences.general.routine.hours[1].start.split(":");
-            start.setHours(split[0]); 
-            start.setMinutes(split[1]); 
-            start.setSeconds(split[2]);
+            return !(await checkShift(storage.preferences.general.routine.hours[1]));
 
-            split = storage.preferences.general.routine.hours[1].end.split(":");
-            end.setHours(split[0]); 
-            end.setMinutes(split[1]); 
-            end.setSeconds(split[2]);
-
-            if (start > now || end < now) return true;
+        case "work-shifts":
             break;
-        default:
-            return false;
     }
     return false; // Default to false
 }
