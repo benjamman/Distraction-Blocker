@@ -30,6 +30,8 @@ async function init(){
                             { "start": "09:00:00", "end": "17:00:00" }, // Reserved for free-hours routine type
                             // Reserved for work-shifts routine type
                             [{ "start": "09:00:00", "end": "12:00:00" }, { "start": "13:00:00", "end": "17:00:00" }]
+
+                            // Possibly allow custom routines past this...?
                         ]
                     }
                 },
@@ -118,8 +120,8 @@ async function checkShift(shift) {
 
     let res = start < now && end > now;
 
-    // console.log("shift", shift);
-    // console.log("checkShift", res);
+    console.log("shift", shift);
+    console.log("checkShift", res);
 
     return res;
 }
@@ -129,7 +131,8 @@ async function checkRoutine(s) {
     console.log("Checking routine")
     // If the routine is not enabled no sense checking if it's passed
     if (storage.preferences.general.routine.type === "none" || (storage.blocking.reEnable > 0 && storage.preferences.general.routine.canOverride)) return false;
-    // Now to check the routine;
+    // Now to check the routine
+    console.log("routine type", storage.preferences.general.routine.type);
     switch(storage.preferences.general.routine.type) {
         case "work-hours":
             return checkShift(storage.preferences.general.routine.hours[0]);
@@ -137,8 +140,22 @@ async function checkRoutine(s) {
         case "free-hours":
             return !(await checkShift(storage.preferences.general.routine.hours[1]));
 
-        case "work-shifts":
-            break;
+        case "shifts":
+            /*
+                ! GUI NOT IMPLEMENTED
+                * This is tested and seems to function
+                * Just needs some front-end work
+                - Benjamman
+            */
+            
+            
+            let shifts = storage.preferences.general.routine.hours[2];
+
+            for (let shift of shifts) {
+                if (await checkShift(shift)) {
+                    return true;
+                }
+            };
     }
     return false; // Default to false
 }
