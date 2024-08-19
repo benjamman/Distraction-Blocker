@@ -164,18 +164,34 @@
                         </div>
                     </form>
                 </section>
-
-                <h2 id="block-page">Block Page</h2>
+                
                 <section class="settings-section" aria-labeledby="block-page"> 
+                    <h2 id="block-page">Block Page</h2>
                     <h3>Page Type</h3>
                     <p>What type of page would you like it to redirect to?</p>
-                    <select class="select">
-                        <option value="password">Password</option>
+                    <select id="page-type-select" class="select">
+                        <option value="password-input">Password</option>
                         <option value="wait">Timer Button</option>
                         <option value="quiz">Answer a Quiz</option>
                         <option value="fake-tos">Read fake Terms & Conditions</option>
-                        <option value="custom">Custom Page</option>
+                        <option value="custom-page">Custom Page</option>
                     </select>
+                    
+                    <form id="password-input-form" class="blockpage-form">
+                        <h4>Password</h4>
+                        <p>Enter a password to gain access to blocked sites.</p>
+                        <label for="Password">Password</label>
+                        <input id="password-text-input" class="text-input input" name="Password" type="text" placeholder="Place holder pass" />
+                        <input id="save-password" type="submit" class="button input primary" value="Save">
+                    </form>
+                    <form id="custom-page-form" class="blockpage-form">
+                        <h4>Custom Page</h4>
+                        <p>Redirects to custom page when accessing blocked sites.</p>
+                        <label for="domain">Domain</label>
+                        <input class="text-input input" name="domain" type="url" placeholder="https://example.com" />
+                        <input type="button" class="button input" value="Add Domain">
+                        <input type="submit" class="button input primary" value="Save">
+                    </form>   
                 </section>
 
                 <section class="settings-section" aria-labeledby="data-and-syncing">
