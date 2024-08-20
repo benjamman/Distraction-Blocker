@@ -164,23 +164,71 @@
                         </div>
                     </form>
                 </section>
-
-                <h2 id="block-page">Block Page</h2>
+                
                 <section class="settings-section" aria-labeledby="block-page"> 
+                    <h2 id="block-page">Block Page</h2>
                     <h3>Page Type</h3>
                     <p>What type of page would you like it to redirect to?</p>
-                    <select class="select">
-                        <option value="password">Password</option>
+                    <select id="page-type-select" class="select">
+                        <option value="password-input">Password</option>
                         <option value="wait">Timer Button</option>
                         <option value="quiz">Answer a Quiz</option>
                         <option value="fake-tos">Read fake Terms & Conditions</option>
-                        <option value="custom">Custom Page</option>
+                        <option value="custom-page">Custom Page</option>
                     </select>
+                    
+                    <form id="password-input-form" class="blockpage-form">
+                        <h4>Password</h4>
+                        <p style="padding-bottom:.5em">Enter a password to gain access to blocked sites.</p>
+                        <label for="password">Password</label>
+                        <input id="password-text-input" class="text-input input" name="password" type="password" placeholder="Your blockpage password" />
+                        <input id="save-password" type="submit" class="button input primary" value="Save">
+                        <div style="padding-top:.4rem;font-size:.8rem;">
+                            <label for="show-password">Current password</label>
+                            <input id="show-password" class="button input" type="button" name="show-password" value="Show" title="Show current password">
+                        </div>
+                    </form>  
+                    <form id="wait-form" class="blockpage-form">
+                        <h4>Timer Button</h4>
+                        <p>
+                            <strong style="color:red">UNIMPLEMENTED!!</strong>
+                            Planned feature.
+                        </p>
+                    </form>
+                    <form id="quiz-form" class="blockpage-form">
+                        <h4>Answer a Quiz</h4>
+                        <p>
+                            <strong style="color:red">UNIMPLEMENTED!!</strong>
+                            Planned feature.
+                        </p>
+                    </form>
+                    <form id="fake-tos-form" class="blockpage-form">
+                        <h4>Read fake Terms & Conditions</h4>
+                        <p>
+                            <strong style="color:red">UNIMPLEMENTED!!</strong>
+                            Planned feature.
+                        </p>
+                    </form>
+                    <form id="custom-page-form" class="blockpage-form">
+                        <h4>Custom Page</h4>
+                        <p>
+                            <aside><strong style="color:red">COMING SOON!</strong> <strike style="font-style:italic;font-family:cursive">to theaters near you</strike></aside>
+                            Redirects to custom page when accessing blocked sites.
+                        </p>
+                        <label for="domain">Domain</label>
+                        <input class="text-input input" name="domain" type="url" placeholder="https://example.com" />
+                        <input type="button" class="button input" value="Add Domain">
+                        <input type="submit" class="button input primary" value="Save">
+                    </form>
                 </section>
 
                 <section class="settings-section" aria-labeledby="data-and-syncing">
                     <h2 id="data-and-syncing">Data & Syncing</h2>
                     <h3>Syncing</h3>
+                    <p>
+                        <strong style="color:red">UNIMPLEMENTED!!</strong>
+                        Planned feature.
+                    </p>
                     <h3>Clear Data</h3>
                     <p>These buttons erase ALL settings and other storage asociated with their storage types. Be careful!</p>
                     <button class="button negative" id="clear-local-data">Clear Local Data</button>
