@@ -139,7 +139,7 @@ window.addEventListener("load", async () => {
 		Domain List settings
 	*/
 
-
+    
     function changeDomainList() { 
         // Swap between black/white list
         // UI only, the actually settings change when you press the save button for either list
@@ -159,10 +159,68 @@ window.addEventListener("load", async () => {
     document.getElementById("blacklist-whitelist-select").value = options.blocking_rules.list_type;
     changeDomainList();
     
+    
 	/*
 		TODO:: Handle blacklist settings
 		TODO:: Handle whitelist settings
 	*/
+
+
+    
+    /*  								*\
+		### Redirect page settings ###
+	\*  								*/
+    
+    
+    async function changePageType() { 
+        const value = document.getElementById("page-type-select").value;
+
+        // Hide all forms
+        for (const form of document.getElementsByClassName("blockpage-form")) {
+            form.style.display = "none";
+        }
+
+        // Show the relevant form based on the selected value
+        if (value == "none") return;
+        document.getElementById(value + "-form").style.display = "";
+    }
+
+    // Assign the onchange event to trigger the function when the selection changes
+    document.getElementById("page-type-select").onchange = changePageType;
+
+    // Display the current Page Type settings on page load
+    changePageType();
+
+    
+    // Save/Sets password in settings
+    function setPassphraze(newPass) {
+        if (newPass.length < 4) {
+            alert("Too short!");
+            return;
+        }
+        browser.storage.local.get().then(s => {
+            s.preferences.block_page.password = newPass;
+            browser.storage.local.set(s);
+        });
+        alert("Password saved!");
+    }
+
+    // Show password on the click of a button
+    document.getElementById("show-password").onclick = function() {
+        browser.storage.local.get().then(s => {
+            alert("Password is set to: "+s.preferences.block_page.password);
+        });
+    };
+    
+    
+    // Save Password when save button is pressed(actually it just prints)
+    document.getElementById("save-password").onclick = function(e) {
+        e.preventDefault();
+        setPassphraze(document.getElementById("password-text-input").value);
+    };
+
+
+
 
 	/*  								*\
 		### Data & Syncing Section ###

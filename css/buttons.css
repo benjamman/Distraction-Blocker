@@ -1,7 +1,7 @@
 .input, .text-input, .time-input, .button, .select {
 	color: var(--clr-btn);
 	background-color: var(--bg-btn);
-	font-size: 1rem;
+	font-size: inherit;
 	border: none;
 	padding: .5em 1em;
 	border-radius: .2em;
