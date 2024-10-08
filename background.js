@@ -79,8 +79,6 @@ const blockedOrigins = [
 const redirectUrl = chrome.extension.getURL("redirect/index.html");
 
 
-let lastActive = Date.now();
-
 function enableBlocking() {
     console.log("Turning blocking back on");
     browser.storage.local.set({ blocking: { enabled: true, reEnable: -1 } });
@@ -93,7 +91,7 @@ async function checkTimeLimit(s) {
     if (!storage.preferences.general.timeLimit.enabled || (storage.blocking.reEnable > 0 && storage.preferences.general.timeLimit.canOverride)) return false;
     // If time limit is passed return true
     if (storage.stats.timeDistracted >= (storage.preferences.general.timeLimit.time / 1000)) {
-        return enableBlocking();
+        return true;
     }
     return false; // Default to false
 }
@@ -194,6 +192,7 @@ async function checkActiveTab() {
 browser.tabs.onActivated.addListener(() => checkActiveTab());
 browser.tabs.onUpdated.addListener(() => checkActiveTab());
 
+let lastActive = Date.now();
 setInterval(() => {
     getActiveTab().then(async tabs => {
         let tab = tabs[0];
