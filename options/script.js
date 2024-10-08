@@ -1,8 +1,14 @@
 let sectionLinks, sectionIds;
 
+async function setLocal(set) {
+    s = set(await browser.storage.local.get());
+    browser.storage.local.set(s);
+}
+let getLocal = browser.storage.local.get;
+
 window.addEventListener("load", async () => {
     // Just to not have to grab options over and over on initial load
-    let options = (await browser.storage.local.get()).preferences;
+    let options = (await getLocal("preferences")).preferences;
 
     /*
 		Get the sections for highlighting them later.
@@ -20,11 +26,13 @@ window.addEventListener("load", async () => {
 	/*
 		On/off at start setting
 	*/
-	document.getElementById("on-at-start-select").onchange = async function() {
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.autostart = this.value=="true";
-        browser.storage.local.set(storage);
-	};
+
+    document.getElementById("on-at-start-select").onchange = function() {
+        setLocal(s => {
+            s.preferences.general.autostart = this.value=="true";
+            return s;
+        });
+    };
 
     /*
         Time limit settings
@@ -43,21 +51,26 @@ window.addEventListener("load", async () => {
     document.getElementById("time-limit-hours").value = Math.floor((options.general.timeLimit.time/60000)/60);
     document.getElementById("time-limit-minutes").value = Math.floor((options.general.timeLimit.time/60000)%60);
     // When the time limit select is used update the UI and settings accordingly
-    document.getElementById("time-limited-select").onchange = async function() {
+    document.getElementById("time-limited-select").onchange = function() {
         document.getElementById("time-limit-form").style.display = this.value == 1 ? '' : "none";
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.timeLimit.enabled = this.value==1;
-        browser.storage.local.set(storage);
+        setLocal(s => {
+            console.log(this.value);
+            s.preferences.general.timeLimit.enabled = !!+this.value;
+            console.log("Time Limit Enabled:",s.preferences.general.timeLimit.enabled);
+            return s;
+        });
     };
     // When the "Update Time Limit" button is pressed save the current time limit and enable it
     document.getElementById("save-time-limit").onclick = async function (e) {
         e.preventDefault();
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.timeLimit.enabled = true;
-        storage.preferences.general.timeLimit.time = 
-            Math.floor((document.getElementById("time-limit-hours").value*60000)*60)+
-            Math.floor(document.getElementById("time-limit-minutes").value*60000);
-        browser.storage.local.set(storage);
+        setLocal(s => {
+            s.preferences.general.timeLimit.enabled = true;
+            s.preferences.general.timeLimit.time = 
+                Math.floor((document.getElementById("time-limit-hours").value*60000)*60)+
+                Math.floor(document.getElementById("time-limit-minutes").value*60000);
+            window.alert("Time Limit Saved!");
+            return s;
+        });
     };
 
 	/*
@@ -71,17 +84,17 @@ window.addEventListener("load", async () => {
 		}
         if (value == "none") return;
 		document.getElementById(value+"-form").style.display = "";
-        let storage = await browser.storage.local.get();
+        let s = await getLocal();
         switch (value) {
             case "work-hours":
-                if (!storage.preferences.general.routine.hours[0]) break;
-                document.getElementById("work-hours-start-time").value = storage.preferences.general.routine.hours[0].start;
-                document.getElementById("work-hours-end-time").value = storage.preferences.general.routine.hours[0].end;
+                if (!s.preferences.general.routine.hours[0]) break;
+                document.getElementById("work-hours-start-time").value = s.preferences.general.routine.hours[0].start;
+                document.getElementById("work-hours-end-time").value = s.preferences.general.routine.hours[0].end;
                 break;
             case "free-hours":
-                if (!storage.preferences.general.routine.hours[0]) break;
-                document.getElementById("free-hours-start-time").value = storage.preferences.general.routine.hours[1].start;
-                document.getElementById("free-hours-end-time").value = storage.preferences.general.routine.hours[1].end;
+                if (!s.preferences.general.routine.hours[0]) break;
+                document.getElementById("free-hours-start-time").value = s.preferences.general.routine.hours[1].start;
+                document.getElementById("free-hours-end-time").value = s.preferences.general.routine.hours[1].end;
                 break;
             default:
                 break;
@@ -91,9 +104,13 @@ window.addEventListener("load", async () => {
     // Swap routine type setting when selected value changes
 	document.getElementById("routine-select").onchange = async function() {
         changeRoutineType();
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.routine.type = this.value;
-        browser.storage.local.set(storage);
+        setLocal(s => {
+            s.preferences.general.routine.type = this.value;
+            return s;
+        })
+        // let s = await getLocal();
+        // s.preferences.general.routine.type = this.value;
+        // browser.storage.local.set(s);
     };
 
     // Display current routine settings on page load
@@ -101,18 +118,17 @@ window.addEventListener("load", async () => {
     changeRoutineType();
 
 	/*
-		TODO:: Handle work hours settings
-		TODO:: Handle free hours settings
 		TODO:: Handle shift settings
 	*/
 
     async function saveRoutine(hours, type) {
-        let storage = await browser.storage.local.get();
-        storage.preferences.general.routine.type = type;
-        let routineIndex = ["work-hours","free-hours","work-shifts"].indexOf(type);
-        storage.preferences.general.routine.hours[routineIndex] = hours;
-        browser.storage.local.set(storage);
-        alert("Routine Saved!");
+        setLocal(s => {
+            s.preferences.general.routine.type = type;
+            let i = ["work-hours","free-hours","work-shifts"].indexOf(type);
+            s.preferences.general.routine.hours[i] = hours;
+            return s;
+        });;
+        window.alert("Routine Saved!");
     }
 
     document.getElementById("save-work-hours").onclick = function(e) {
@@ -143,13 +159,15 @@ window.addEventListener("load", async () => {
     function changeDomainList() { 
         // Swap between black/white list
         // UI only, the actually settings change when you press the save button for either list
+        const blForm = document.getElementById("blacklist-form"),
+              wlForm = document.getElementById("whitelist-form");
 		if (document.getElementById("blacklist-whitelist-select").value === "blacklist") {
-			document.getElementById("whitelist-form").style.display = "none";
-			document.getElementById("blacklist-form").style.display = "";
+			wlForm.style.display = "none";
+			blForm.style.display = "";
 			return;
 		}
-		document.getElementById("blacklist-form").style.display = "none";
-		document.getElementById("whitelist-form").style.display = "";
+		blForm.style.display = "none";
+		wlForm.style.display = "";
 	};
 
     // Swap domain lists when the selected value changes
@@ -195,20 +213,20 @@ window.addEventListener("load", async () => {
     // Save/Sets password in settings
     function setPassphraze(newPass) {
         if (newPass.length < 4) {
-            alert("Too short!");
+            window.alert("Too short!");
             return;
         }
         browser.storage.local.get().then(s => {
             s.preferences.block_page.password = newPass;
             browser.storage.local.set(s);
         });
-        alert("Password saved!");
+        window.alert("Password saved!");
     }
 
     // Show password on the click of a button
     document.getElementById("show-password").onclick = function() {
         browser.storage.local.get().then(s => {
-            alert("Password is set to: "+s.preferences.block_page.password);
+            window.alert("Password is set to: "+s.preferences.block_page.password);
         });
     };
     
