@@ -71,6 +71,10 @@ async function init(){
 
 init();
 
+async function setLocal(set) {
+    s = set(await browser.storage.local.get());
+    browser.storage.local.set(s);
+}
 
 // These two vars need to be replaced with user changable values from browser.storage
 const blockedOrigins = [
@@ -164,7 +168,17 @@ async function checkBlocking() {
     let storage = await browser.storage.local.get(),
         blocking = storage.blocking;
     // If blocking is already enabled or allowed distracted time is up
-    if (blocking.enabled || await checkTimeLimit(storage) || await checkRoutine(storage)) return true;
+    if (await checkTimeLimit(storage) || await checkRoutine(storage)) {
+        return enableBlocking();
+    } else {
+        // Workaround
+        // Proper fix would be refactoring all logic
+        blocking.enabled = false;
+        setLocal(s => {
+            s.blocking.enabled = false;
+            return s;
+        });
+    }
     // Reinable blocking after a break
     if (blocking.reEnable > 0 && Date.now() > blocking.reEnable) {
         return enableBlocking();
