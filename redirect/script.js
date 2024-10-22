@@ -1,6 +1,13 @@
 const params = new URL(location).searchParams;
 let overrideLength;
 
+window.addEventListener("focus", async () => {
+    if ((await browser.storage.local.get()).blocking.enabled) return;
+    window.history.back();
+    // Fallback to location.replace
+    window.location.replace(params.get("page"));
+});
+
 window.addEventListener("load", () => {
 	document.getElementById("settings-link").href = chrome.extension.getURL("options/index.html");
 	overrideLength = document.getElementById("override-len").value;
@@ -43,9 +50,7 @@ window.addEventListener("load", () => {
 		});
 		console.log("Disabling blocking. Will restart at:", restartBlocking);
         window.history.back();
-        // If window.history.back() doesn't have a page to go to, which shouldn't usually be possible
-        // It would be best if we could check what the last page was or manipulate the history to
-        // make sure the browser goes back to the right page, not sure how we would do that though.
+        // Fallback to location.replace
         window.location.replace(params.get("page"));
 	};
 });
